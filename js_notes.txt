@@ -1,0 +1,9 @@
+Strings:
+- a string represents a sequence of characters and can be enclosed in either single (') or double (") quotes.
+- strings are immutable, can be asssigned a new value but cannot be changed value once created.
+- The default value of an uninitialized variable is undefined. 
+
+Arrays:
+- push-> outputs index where element is added 
+- pop -> outputs value
+- length
