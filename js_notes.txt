@@ -7,3 +7,10 @@ Arrays:
 - push-> outputs index where element is added 
 - pop -> outputs value
 - length
+
+
+CORS:
+- cross origin resource sharing
+- cors is a browser feature that enables security
+one can do the fetch from any terminal but when using browser it adds the origin(site where you are) 
+to the header that is sent to server as a request

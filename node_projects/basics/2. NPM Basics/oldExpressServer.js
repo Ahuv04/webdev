@@ -5,7 +5,9 @@ const PORT = process.env.PORT || 3500;
 const {logger} = require('./middleware/logEvents');
 const errHandler = require('./middleware/errorHandler');
 const cors=require('cors');
-const corsOptions= require('./config/corsOptions');
+const { route } = require('./routes/subdir');
+
+
 //also takes regex inputs
 /*
 this way if someone asked for '/' he would get index but wouldn't get it if
@@ -43,6 +45,24 @@ app.use((req, res, next) =>{
 
 app.use(logger);
 
+//cross origin resource shairng
+//here it is open to the whole public but we dont want that, therefore we should create a whitelist
+//app.use(cors());
+//syntax : 
+// any react app =>  at loopback:PORT
+const whitelist=['https://www.yoursite.com', 'http://127.0.0.1:5500','http://localhost:3500'];
+
+const corsOptions = {
+    origin : (origin, callback) => {
+        // if(whitelist.indexOf(origin)!==-1 || !origin)
+        if(whitelist.indexOf(origin)!==-1 || !origin)
+        { callback(null, true);}
+        else{
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200
+}
 app.use(cors(corsOptions));
 
 /*
@@ -59,25 +79,67 @@ app.use(express.json());
 //to make files available to public
 // applied before route functions so they are 
 app.use('/', express.static(path.join(__dirname,'public')));
-app.use('/',require('./routes/root'));
 
 app.use('/subdir',express.static(path.join(__dirname,'public')));
 app.use('/subdir',require('./routes/subdir'));
 
-app.use('/employees',require('./routes/api/employees'));
-app.use('/register',require('./routes/api/register'));
-app.use('/auth',require('./routes/api/auth'));
+app.get('^/$|/index(.html)?', (req,res) =>{
+//    res.send('Hello world');
+//another way to send file
+//    res.sendFile('./views/index.html', {root:__dirname});
+    res.sendFile(path.join(__dirname,'views','index.html'));
+});
+
+app.get('/new-page(.html)?', (req,res) =>{
+    res.sendFile(path.join(__dirname,'views','new-page.html'));
+});
+
+app.get('/old-page(.html)?', (req,res) =>{
+    //res.redirect('/new-page.html'); //302 by default response by express
+    //rather do
+    res.redirect(301, 'new-page.html');
+});
+
+//route handlers
+//you can chain more than one methods
+app.get('/hello(.html)?', (req,res, next)=>{
+    console.log('routing to next function');
+    next()
+}, (req,res)=>{
+    res.send('Hello after being routed');
+}
+);
 
 
-/*
+//another routing method
+
+const one= (req, res, next) =>{
+    console.log(1);
+    next();
+};
+
+const two= (req, res, next) =>{
+    console.log(2);
+    next();
+};
+
+const three= (req, res) =>{
+    console.log(3);
+    res.send("Finished");
+};
+
+app.get('/chain(.html)?', [one, two, three]);
+
 //some custom stuff for 404
 //
 // app.use('/') doesnot accept regex so would apply to all but we need only for undefined therefore
-earlier function
+/* earlier function
 app.get('/*', (req,res)=>{
     //if only sendFile the response code could have been 200 ie successfully sending file
     res.status(404).sendFile(path.join(__dirname,'views','404.html'));
+
 app.all() is more for routing
+
 });
 */
 app.all('*', (req,res)=>{

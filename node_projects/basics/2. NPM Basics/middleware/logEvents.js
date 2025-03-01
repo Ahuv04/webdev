@@ -20,11 +20,11 @@ const logEvents= async(message, fileName) =>{
     const logItem = `${dateTime}\t${uuid()}\t${message}\n`;
     console.log(logItem);
     try{
-        if(!fs.existsSync(path.join(__dirname,'logs')))
-        {   await fsPromises.mkdir(path.join(__dirname, 'logs'));
+        if(!fs.existsSync(path.join(__dirname,'..','logs')))
+        {   await fsPromises.mkdir(path.join(__dirname, '..', 'logs'));
 
         }
-        await fsPromises.appendFile(path.join(__dirname,'logs', fileName),logItem);
+        await fsPromises.appendFile(path.join(__dirname,'..','logs', fileName),logItem);
 
     }catch(err)
     {
@@ -32,5 +32,12 @@ const logEvents= async(message, fileName) =>{
     }
 }
 
+const logger = (req, res, next) =>{
+    console.log(`${req.method} \t${req.path}`);
+    logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`,'reqLog.txt');
+    
+    next();
+}
 
-module.exports=logEvents;
+
+module.exports= {logger, logEvents};

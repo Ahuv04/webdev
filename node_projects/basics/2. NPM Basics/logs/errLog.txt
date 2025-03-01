@@ -4,3 +4,11 @@
 20250218	09:58:15	e4ad66f2-98c8-4ef3-a73f-f75cd1b31157	TypeError: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of Array
 20250218	10:00:13	a560a0b0-3c53-4aae-8120-5bfa0b008d5a	TypeError: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of Array
 20250218	10:00:29	180f8492-1573-4b12-ae87-3ef0405f2a7f	TypeError: The "chunk" argument must be of type string or an instance of Buffer or Uint8Array. Received an instance of Array
+20250222	11:43:25	4f4a1a0b-3a75-45f2-92e4-55135b59d090	Error: Not allowed by CORS
+20250222	12:27:53	e68773ef-53cb-4b1f-9b44-d8c164bde93e	Error: Not allowed by CORS
+20250222	12:27:53	5c185fcf-f79b-46e3-bc12-b95f3466a108	Error: Not allowed by CORS
+20250222	12:35:34	94b77823-782d-45bb-bde4-ada2cc324104	Error: Not allowed by CORS
+20250222	12:35:34	1f73e80f-4713-4f7f-bd84-e05fce2ad5ad	Error: Not allowed by CORS
+20250222	18:41:03	52cca61a-7272-438e-a328-5f37818ef66b	ReferenceError: n is not defined
+20250222	18:41:32	0325262c-ef28-48f7-a327-dc01367709ee	TypeError: Assignment to constant variable.
+20250222	18:44:05	0a150e26-fa4c-4f2f-a136-970bc3280bd2	TypeError: data is not iterable
