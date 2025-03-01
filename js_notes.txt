@@ -14,3 +14,19 @@ CORS:
 - cors is a browser feature that enables security
 one can do the fetch from any terminal but when using browser it adds the origin(site where you are) 
 to the header that is sent to server as a request
+
+JWT:
+- JSON web tokens : user identificatn issued after initial user authentication.
+Access token : short time
+refresh token : longer time
+
+- always keep access tokens in memory and not in cookies or local storage as if you can store it somewhere with js 
+an attacker can also access/retreive them using js
+- we'll give them in httponly cookie which cannot be retrieved via js.
+- no refresh token can grant any refresh tokens
+- refresh token also issued during user login/authentication.
+- all tokens deleted when user logs out.
+
+
+MongoDB:
+user info =>  ganeshkarakhilesh : 8dnRVUniOUlp0uxP

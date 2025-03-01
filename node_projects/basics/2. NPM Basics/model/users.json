@@ -1,1 +1,29 @@
-[{"username":"banger","password":"$2b$10$enhiiYgnsyv6QirRK2W/4uyCY0G.RhIPPlIS5gG/UVkWOqcOcw2YS"}]
+[
+    {
+        "username":"banger",
+        "roles" :{
+            "Admin" : 5150,
+            "Editor" : 1984,
+            "User" : 2001
+        },
+        "password":"$2b$10$enhiiYgnsyv6QirRK2W/4uyCY0G.RhIPPlIS5gG/UVkWOqcOcw2YS",
+        "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJhbmdlciIsImlhdCI6MTc0MDMwMDQzNCwiZXhwIjoxNzQwMzg2ODM0fQ.UZn6SOAARFovwpDo0y11jybgyXVobxvcyFHGTwyN1ZE"
+    },
+    {
+        "username":"b1",
+        "roles" :{
+            "Editor" : 1984,
+            "User" : 2001
+        },
+        "password":"$2b$10$enhiiYgnsyv6QirRK2W/4uyCY0G.RhIPPlIS5gG/UVkWOqcOcw2YS",
+        "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJhbmdlciIsImlhdCI6MTc0MDMwMDQzNCwiZXhwIjoxNzQwMzg2ODM0fQ.UZn6SOAARFovwpDo0y11jybgyXVobxvcyFHGTwyN1ZE"
+    },
+    {
+        "username":"b2",
+        "roles" :{
+            "User" : 2001
+        },
+        "password":"$2b$10$enhiiYgnsyv6QirRK2W/4uyCY0G.RhIPPlIS5gG/UVkWOqcOcw2YS",
+        "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJhbmdlciIsImlhdCI6MTc0MDMwMDQzNCwiZXhwIjoxNzQwMzg2ODM0fQ.UZn6SOAARFovwpDo0y11jybgyXVobxvcyFHGTwyN1ZE"
+    }
+]
