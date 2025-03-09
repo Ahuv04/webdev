@@ -1,11 +1,6 @@
-const userDB={
-    users: require('../model/users.json'),
-    setUsers: function(data){
-        this.users=data;
-    } 
-}
+const User = require('../model/User')
+
 const fsPromises = require('fs').promises;
-const path = require('path');
 
 const handleLogout = async (req,res) =>{
     const cookies= req.cookies;
@@ -14,24 +9,18 @@ const handleLogout = async (req,res) =>{
     console.log(cookies.jwt);
     const refreshToken = cookies.jwt;
 
-    const usr = userDB.users.find(person=> person.refreshToken===refreshToken);
+    const usr = await User.findOne({refreshToken:refreshToken}).exec();
 
     //no user but cookie was there
     if(!usr){
-        res.clearCookie('jwwt', {httpOnly : true, sameSite : 'None', secure:true});
+        res.clearCookie('jwt', {httpOnly : true, sameSite : 'None', secure:true});
         res.sendStatus(204);
     }
 
-    const otherUsers = userDB.users.filter(person=> person.refreshToken!==refreshToken);
-    const currUser= {...usr, refreshToken:''};
-    userDB.setUsers([...otherUsers, currUser]);
+    const result = await User.updateOne({refreshToken:refreshToken},{$unset: {refreshToken: refreshToken}});
+    console.log(result);
 
-    await fsPromises.writeFile(
-        path.join(__dirname,'..','model','users.json'),
-        JSON.stringify(userDB.users)
-    );
-
-    res.clearCookie('jwwt', {httpOnly : true}); //secure true- only serves on https
+    res.clearCookie('jwt', {httpOnly : true}); //secure true- only serves on https
     res.sendStatus(204);
 
 }

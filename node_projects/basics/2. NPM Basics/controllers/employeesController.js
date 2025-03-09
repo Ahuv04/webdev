@@ -1,33 +1,37 @@
-const data ={
-    employees : require('../model/employees.json'),
-    setEmployees: function (data) {this.employees = data}
+const Employee = require('../model/Employee');
+
+const getAllEmployees= async (req,res) =>{
+    const employees = await Employee.find();
+    if(!employees) return res.status(204).json({'messages':'No Employees found'});
+    res.status(200).json(employees);
 }
 
-const getAllEmployees= (req,res) =>{
-    res.status(200).json(data.employees);
-}
-
-const createEmployee = (req,res)=>{
-    const newEmployee = {
-        id : data.employees.length+1,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname
+const createEmployee = async (req,res)=>{
+    if(!req?.body?.firstname || !req?.body?.firstname) {
+        res.status(400).json({"message" : "firstname and lastname are required"});
     }
 
-    if(!newEmployee || !newEmployee.lastname)
-    {
-        return res.status(400).json({"message" : "firstname and lastname are required"});
+    try{
+        const newEmployee = new Employee({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname
+        });
+        const result = await Employee.create(newEmployee);
+        // const employees = await Employee.find();
+        return res.status(201).json(result);
+    }catch(err){
+        console.error(err);
     }
-
-    const newData = [...data.employees, newEmployee];
-    data.setEmployees(newData);
-
     //201 means created new record
-    return res.status(201).json(data.employees);
 }
 
-const updateEmployee = (req,res)=>{
-    const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
+const updateEmployee = async (req,res)=>{
+    if(!req?.body?.id) {
+        res.status(400).json({"message":`No Employee ID found in Body`});
+    }
+
+    const employee = await Employee.findOne({_id : req.body.id}).exec();
+    
     if(!employee){
         res.status(400).json({"message":`Employee ID ${req.body.id} not found`});
     }
@@ -36,32 +40,35 @@ const updateEmployee = (req,res)=>{
     if(req.body.firstname) employee.firstname=req.body.firstname;
     if(req.body.lastname) employee.lastname=req.body.lastname;
     
-    const filteredArr = data.employees.filter(emp => emp.id!==parseInt(employee.id));
-    const newArr = [...filteredArr, employee];
-    //there is no reason to sort it but it will look better after sorting
-    data.setEmployees(newArr.sort(
-        (a,b) => a.id > b.id ? 1: a.id < b.id? -1 : 0
-    ));
-    res.status(200).json(data.employees);
-
+    const result = await employee.save();
+    res.status(200).json(result);
 }
 
-const deleteEmployee = (req, res)=>{
-    const employee = data.employees.find(emp => emp.id === parseInt(req.body.id));
-    if(!employee){
-        res.status(400).json({"message":`Employee ID ${req.body.id} not found`});
+const deleteEmployee = async (req, res)=>{
+    if(!req?.body?.id) {
+        return res.status(400).json({"message":`No Employee ID found in Body`});
     }
-    const filteredArr = data.employees.filter(emp => emp.id!==parseInt(employee.id));
-    data.setEmployees(filteredArr);
-    res.status(200).json(data.employees);
+
+    const employee = await Employee.findOne({_id : req.body.id}).exec();
+
+    if(!employee){
+        return res.status(400).json({"message":`Employee ID ${req.body.id} not found`});
+    }
+
+    const result = await Employee.deleteOne({_id : req.body.id});
+    return res.status(200).json(result);
 }
 
-const getEmployee = (req,res) =>{
-    const employee = data.employees.find(emp => emp.id === parseInt(req.params.id));
-    if(!employee){
-        res.status(400).json({"message":`Employee ID ${req.body.id} not found`});
+const getEmployee = async (req,res) =>{
+    if(!req?.params?.id) {
+        return res.status(400).json({"message":`No Employee ID found in Body`});
     }
-    res.status(200).json(employee);
+    const employee = await Employee.findOne({_id : req.params.id}).exec();
+
+    if(!employee){
+        res.status(400).json({"message":`Employee ID ${req.params.id} not found`});
+    }
+    return res.status(200).json(employee);
 }
 
 module.exports = {getAllEmployees, createEmployee, updateEmployee, deleteEmployee, getEmployee};
