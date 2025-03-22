@@ -1,0 +1,5 @@
+.env
+music/posts/__pycache__/
+music/posts/migrations/
+music/music/__pycache__/
+media
