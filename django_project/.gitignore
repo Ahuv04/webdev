@@ -1,5 +1,4 @@
 .env
-music/posts/__pycache__/
-music/posts/migrations/
-music/music/__pycache__/
+music/*/__pycache__/
+music/*/migrations/
 media
