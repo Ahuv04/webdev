@@ -1,0 +1,1 @@
+console.log('this is JS outputs from about page');
